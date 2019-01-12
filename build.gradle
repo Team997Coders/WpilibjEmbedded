@@ -1,0 +1,55 @@
+plugins {
+  id 'java-library'
+  id 'maven'
+}
+
+// See https://jitpack.io/docs/BUILDING/
+group = 'com.github.team997coders'
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+  compileOnly 'com.github.chuckb.haikuVM:haikuRT:5fdb964c4b'
+  compileOnly 'com.github.chuckb.haikuVM:bootstrap:5fdb964c4b'
+  compileOnly 'com.github.team997coders:SpartanLib:416f2ab904'
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.mockito:mockito-core:2.23.4'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+install {
+  repositories.mavenInstaller {
+    pom.project {
+      licenses {
+        license {
+          name 'GNU General Public License, version 3'
+          url 'https://www.gnu.org/licenses/gpl-3.0.en.html'
+          distribution 'repo'
+          comments 'By using or conveying this work, you agree to hold harmless Spartan Robotics, FRC Team 997, Corvallis High School, Corvallis School District, OR and any contributing volunteer for any risk of use.'
+        }
+      }
+    }
+  }
+}
