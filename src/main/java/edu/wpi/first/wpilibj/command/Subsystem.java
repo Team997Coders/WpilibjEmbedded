@@ -84,10 +84,14 @@ public abstract class Subsystem {
       m_defaultCommand = null;
     } else {
       Enumeration requirements = command.getRequirements();
+      boolean found = false;
       while (requirements.hasMoreElements()) {
         if (this == (Subsystem) requirements.nextElement()) {
-          throw new IllegalUseOfCommandException("A default command must require the subsystem");
+          found = true;
         }
+      }
+      if (!found) {
+        throw new IllegalUseOfCommandException("A default command must require the subsystem");
       }
       m_defaultCommand = command;
     }
